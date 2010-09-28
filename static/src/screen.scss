@@ -1,0 +1,19 @@
+@import "compass/reset";
+
+$background-color: #FFF;
+$text-color: #999;
+$highlight-color: red;
+
+$font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+
+body {
+    background: $background-color;
+    color: $text-color;
+    font-family: $font-family;
+    font-size: 12px;
+}
+
+#container {
+    width: 600px;
+}
