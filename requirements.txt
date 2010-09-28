@@ -1,1 +1,3 @@
 Flask
+http://github.com/earl/beanstalkc.git
+PyYAML
