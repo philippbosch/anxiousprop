@@ -15,7 +15,7 @@ DEBUG = os.environ.get('FLASK_DEBUG', False)
 SECRET_KEY = "\xef\x1e,X\xb3\xae#\x7f\xa5\xa6\xec]7\xc6@\x03\x8cj\x99{\x95\xec\x85g"
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 PDF_DIRECTORY = os.path.join(PROJECT_ROOT, app.static_path[1:], 'pdf')
-PDF_NUM_PAGES = 32
+PDF_NUM_PAGES = 28
 
 app.config.from_object(__name__)
 
@@ -28,7 +28,7 @@ def index():
 def randomize_publication():
     queue_id = md5(os.urandom(24)).hexdigest()
     beanstalk = beanstalkc.Connection()
-    pages = ["%02d" % page_num for page_num in range(1, app.config['PDF_NUM_PAGES']+1)]
+    pages = ["%02d" % page_num for page_num in range(2, app.config['PDF_NUM_PAGES']+1)]
     random.shuffle(pages)
     beanstalk.put(json.dumps({'queue_id': queue_id, 'pages': pages}))
     return redirect(url_for('pick_up_publication', queue_id=queue_id))
