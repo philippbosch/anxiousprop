@@ -5,8 +5,7 @@ env.project = "anxiousprop"
 
 def staging():
     """Deploy on staging host"""
-    raise NotImplemented
-    env.hosts = ['pb@web01.pb.io']
+    env.hosts = ['pb@web03.pb.io']
     env.path = '/home/pb/projects/%(project)s' % env
     
 def production():

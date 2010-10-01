@@ -8,7 +8,15 @@ $(document).ready(function() {
         e.preventDefault();
         $(this).closest('article').append('<p class="pdf-status running">Creating your publication …</p>');
         $.getJSON('http://theanxiousprop.pb.io/randomize-publication/', function(data) {
-            console.log(data);
+            if (data['status'] != 'ok') {
+                alert('An error occured. Sorry.');
+                return;
+            }
+            var interval = window.setInterval(function() {
+                $.getJSON('http://theanxiousprop.pb.io' + data['pick_up_url'], function(data) {
+                    console.log(data);
+                });
+            }, 1000);
         });
     });
 });
