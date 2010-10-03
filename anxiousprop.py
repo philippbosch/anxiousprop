@@ -45,7 +45,8 @@ def randomize_publication():
 @app.route("/publications/<queue_id>")
 def pick_up_publication(queue_id):
     if os.path.exists(os.path.join(app.config['PDF_DIRECTORY'], '%s.pdf' % queue_id)):
-        return jsonpify(status="ready", pdf_url=url_for('download_publication', queue_id=queue_id))
+        print request.host_url
+        return jsonpify(status="ready", pdf_url="%s%s" % (request.host_url[:-1], url_for('download_publication', queue_id=queue_id)))
     else:
         return jsonpify(status="processing")
 
