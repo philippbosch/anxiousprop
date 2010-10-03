@@ -6,7 +6,7 @@ import json
 import os
 import random
 
-from flask import Flask, render_template, url_for, abort, g, redirect, make_response, send_from_directory, jsonify
+from flask import Flask, render_template, url_for, abort, g, redirect, make_response, send_from_directory, jsonify, request
 from werkzeug.exceptions import NotFound
 
 app = Flask(__name__)
@@ -20,10 +20,15 @@ PDF_NUM_PAGES = 28
 
 app.config.from_object(__name__)
 
+def jsonpify(*args, **kwargs):
+    resp = jsonify(*args, **kwargs)
+    if request.args.get('callback', False):
+        resp.data = "%s(%s);" % (request.args['callback'], resp.data)
+    return resp
 
 @app.route("/")
 def index():
-    return jsonify(status="404 Not found")
+    return jsonpify(status="404 Not found")
 
 @app.route("/randomize-publication/")
 def randomize_publication():
@@ -34,15 +39,15 @@ def randomize_publication():
         beanstalk = beanstalkc.Connection()
         beanstalk.put(json.dumps({'queue_id': queue_id, 'pages': pages}))
     except Exception, e:
-        return jsonify(status="fail", message="%s" % e)
-    return jsonify(status="ok", queue_id=queue_id, pick_up_url=url_for('pick_up_publication', queue_id=queue_id))
+        return jsonpify(status="fail", message="%s" % e)
+    return jsonpify(status="ok", queue_id=queue_id, pick_up_url=url_for('pick_up_publication', queue_id=queue_id))
     
 @app.route("/publications/<queue_id>")
 def pick_up_publication(queue_id):
     if os.path.exists(os.path.join(app.config['PDF_DIRECTORY'], '%s.pdf' % queue_id)):
-        return jsonify(status="ready", pdf_url=url_for('download_publication', queue_id=queue_id))
+        return jsonpify(status="ready", pdf_url=url_for('download_publication', queue_id=queue_id))
     else:
-        return jsonify(status="processing")
+        return jsonpify(status="processing")
 
 @app.route("/publications/<queue_id>/download")
 def download_publication(queue_id):
