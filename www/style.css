@@ -1,8 +1,9 @@
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-weight:inherit;font-style:inherit;font-size:100%;font-family:inherit;vertical-align:baseline;}body{line-height:1;color:black;background:white;}ol,ul{list-style:none;}table{border-collapse:separate;border-spacing:0;vertical-align:middle;}caption,th,td{text-align:left;font-weight:normal;vertical-align:middle;}q,blockquote{quotes:"" "";}q:before,q:after,blockquote:before,blockquote:after{content:"";}a img{border:none;}
 
 body {
-    margin-top: 200px;
+    margin-top: 120px;
     font-size: 12px;
+    font-family: serif;
 }
 
 section, article {
@@ -30,11 +31,19 @@ h1, p {
 
 a {
     text-decoration: none;
-    color: #555;
+    color: #777;
+}
+
+img {
+	width: 480px;
+	height: 320px;
+}
+
+.pdf-status {
+    margin-top: 1em;
 }
 
 .pdf-status.running {
-    margin-top: 1em;
     opacity: 1;
     -webkit-animation: running 500ms ease-in-out 0 infinite alternate;
 }

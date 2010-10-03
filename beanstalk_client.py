@@ -3,15 +3,19 @@ import json
 import os
 from time import sleep
 
+print "Beanstalk client starting up ..."
+
 beanstalk = beanstalkc.Connection()
+print "Connected to beanstalkd ..."
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 PDF_SRC_DIR = os.path.join(PROJECT_ROOT, 'static', 'pdf-src')
 PDF_OUTPUT_DIR = os.path.join(PROJECT_ROOT, 'static', 'pdf')
 
 while True:
+    print "Waiting for jobs ..."
     job = beanstalk.reserve()
-    sleep(3)
+    print "Oh, there's one!"
     job_data = json.loads(job.body)
     cmd = 'pdfjoin %(page_files)s --outfile %(output_dir)s/%(queue_id)s.pdf' % {
         'page_files': " ".join(["%s/%s.pdf" % (PDF_SRC_DIR, page) for page in ['01'] + job_data['pages']]),
@@ -19,4 +23,5 @@ while True:
         'queue_id': job_data['queue_id'],
     }
     os.system(cmd)
+    print "That was easy."
     job.delete()
