@@ -16,7 +16,7 @@ DEBUG = os.environ.get('FLASK_DEBUG', False)
 SECRET_KEY = "\xef\x1e,X\xb3\xae#\x7f\xa5\xa6\xec]7\xc6@\x03\x8cj\x99{\x95\xec\x85g"
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 PDF_DIRECTORY = os.path.join(PROJECT_ROOT, app.static_path[1:], 'pdf')
-PDF_NUM_PAGES = 28
+PDF_NUM_PAGES = 17
 
 app.config.from_object(__name__)
 
