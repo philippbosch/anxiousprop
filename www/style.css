@@ -2,6 +2,7 @@ html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abb
 
 body {
     margin-top: 120px;
+    margin-bottom: 40px;
     font-size: 12px;
     font-family: serif;
 }
@@ -10,10 +11,15 @@ section, article {
     display: block;
 }
 
+#cases {
+	width: 1000px;
+}
+
 article {
     float: left;
     margin-left: 16px;
     line-height: 1.2;
+    border-bottom: 32px solid transparent;
 }
 
 img {
