@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import beanstalkc
+import glob
 from hashlib import md5
 import json
 import os
 import random
+from time import sleep
 
 from flask import Flask, render_template, url_for, abort, g, redirect, make_response, send_from_directory, jsonify, request
 from werkzeug.exceptions import NotFound
@@ -32,20 +34,13 @@ def index():
 
 @app.route("/randomize-publication/")
 def randomize_publication():
-    queue_id = md5(os.urandom(24)).hexdigest()
-    pages = ["%02d" % page_num for page_num in range(2, app.config['PDF_NUM_PAGES']+1)]
-    random.shuffle(pages)
-    try:
-        beanstalk = beanstalkc.Connection()
-        beanstalk.put(json.dumps({'queue_id': queue_id, 'pages': pages}))
-    except Exception, e:
-        return jsonpify(status="fail", message="%s" % e)
+    queue_id = os.path.basename(random.choice(glob.glob("%s/*.pdf" % app.config['PDF_DIRECTORY'])))[:-4]
     return jsonpify(status="ok", queue_id=queue_id, pick_up_url=url_for('pick_up_publication', queue_id=queue_id))
     
 @app.route("/publications/<queue_id>")
 def pick_up_publication(queue_id):
     if os.path.exists(os.path.join(app.config['PDF_DIRECTORY'], '%s.pdf' % queue_id)):
-        print request.host_url
+        sleep(3)
         return jsonpify(status="ready", pdf_url="%s%s" % (request.host_url[:-1], url_for('download_publication', queue_id=queue_id)))
     else:
         return jsonpify(status="processing")
