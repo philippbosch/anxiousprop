@@ -3,7 +3,6 @@ Jinja2==2.7.2
 MarkupSafe==0.21
 PyYAML==3.11
 Werkzeug==0.9.4
--e git+http://github.com/earl/beanstalkc.git@c905774b66120879b7e5cbf11c7518e784d15975#egg=beanstalkc-v0.4.0
 gunicorn==18.0
 itsdangerous==0.24
 pyPdf==1.13
